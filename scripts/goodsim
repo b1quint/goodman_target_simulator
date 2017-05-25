@@ -1,0 +1,42 @@
+#!python
+
+from goodman_target_simulator.core import GoodmanTargetSimulator
+
+import argparse
+
+if __name__ == "__main__":
+
+    _about = "Simulates Goodman Data"
+
+    parser = argparse.ArgumentParser(description=_about)
+
+    parser.add_argument('filename', type=str,
+                        help="Output filename")
+
+    parser.add_argument('-i', '--targets_intensity', type=float, nargs='+',
+                        help="Targets positions in pixels.")
+
+    parser.add_argument('-n', '--noise_ratio', type=float,
+                        help="Signal-to-noise ratio.")
+
+    parser.add_argument('-p', '--targets_positions', type=float, nargs='+',
+                        help="Targets positions in pixels.")
+
+    parser.add_argument('-s', '--show', action='store_true',
+                        help="Show plots used in the process. true/[FALSE]")
+
+    parser.add_argument('-w', '--width', type=float,
+                        help="Seeing width in arcseconds.")
+
+    args = parser.parse_args()
+
+    gts = GoodmanTargetSimulator(
+        filename=args.filename,
+        targets_pos=args.targets_positions,
+        targets_int=args.targets_intensity,
+        seeing=args.width,
+        snr=args.noise_ratio,
+        show=args.show
+    )
+
+    gts.run()
